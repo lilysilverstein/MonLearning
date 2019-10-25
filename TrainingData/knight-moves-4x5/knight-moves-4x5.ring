@@ -1,0 +1,1 @@
+QQ[x_{1, 1}, x_{1, 2}, x_{1, 3}, x_{1, 4}, x_{1, 5}, x_{2, 1}, x_{2, 2}, x_{2, 3}, x_{2, 4}, x_{2, 5}, x_{3, 1}, x_{3, 2}, x_{3, 3}, x_{3, 4}, x_{3, 5}, x_{4, 1}, x_{4, 2}, x_{4, 3}, x_{4, 4}, x_{4, 5}, Degrees => {20:1}, Heft => {1}, MonomialOrder => VerticalList{MonomialSize => 32, GRevLex => {20:1}, Position => Up}, DegreeRank => 1]

@@ -1,0 +1,1 @@
+QQ[x_1, x_2, x_3, x_4, x_5, x_6, x_7, x_8, x_9, x_10, x_11, x_12, x_13, x_14, x_15, Degrees => {15:1}, Heft => {1}, MonomialOrder => VerticalList{MonomialSize => 32, GRevLex => {15:1}, Position => Up}, DegreeRank => 1]

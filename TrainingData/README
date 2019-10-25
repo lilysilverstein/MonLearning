@@ -1,0 +1,25 @@
+This README describes the 9 files contained in each folder of the data directory.
+
+Folder FOO, corresponding to examples of ideals from the family FOO, contains:
+
+FOO.ideals Each line in this file is an ideal, printed using the toString function in Macaulay2.
+
+FOO.ring This file has one line defining the Macaulay2 ring over which the ideals were defined. 
+
+FOO.features The neural network input features for each ideal. I.e., line i of FOO.features is an array with the features of the ideal defined on line i of FOO.ideals. The indexing and description of the features can be found in Table 7.2 (page 116) of Probability and Machine Learning in Combinatorial Commutative Algebra.
+
+FOO.pivotTrees For each ideal, an array with the number of base cases for the nine pivot rules. The order and description of the pivot rules can be found in Table 7.3 (page 117) of Probability and Machine Learning in Combinatorial Commutative Algebra. Note: Pivot rule BS is deterministic. Since the others are not (for instance, ties are broken randomly, or a sample of monomials determines the degree of the pivot), each is averaged over 10 runs.
+
+FOO.codim Line i of FOO.codim is the codimension of ideal i (i.e., line i of FOO.ideals, defined as an ideal of FOO.ring).
+
+FOO.degree Line i of FOO.degree is the degree of ideal i.
+
+FOO.dim Line i of FOO.dim is the dimension of ideal i.
+
+FOO.pdim Line i of FOO.pdim is the projective dimension of ideal i.
+
+FOO.reg Line i of FOO.reg is the (Castelnuovo-Mumford) regularity of ideal i.
+
+
+
+
