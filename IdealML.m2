@@ -225,9 +225,12 @@ graphFeatures (Graph) := (G) -> (
 -------------------
 readIdeal = method();
 readIdeal (String, Ring) := (line, R) -> (
-    Iarray := value (separateRegexp("^(.)",(separateRegexp("..[0-9]+...$", line))#0))#1;
-    Ilist := toList apply(Iarray, m -> toList m);
-    if Ilist === {} then monomialIdeal(0_R) else monomialIdeal(apply(Ilist, m -> R_m))
+    try(
+	value line
+	)
+    else(
+	monomialIdeal(0_R)
+	)
     )
 
 writeFeatures = method();
@@ -251,7 +254,7 @@ writeData (MonomialIdeal, String) := (I, dirName) -> (
     idealFile << toString I << endl << close;
     featFile := openOutAppend(prefix|".features");
     featFile << "[" << writeFeatures(I) << "]" << endl << close;
-    (allTrees, bestT) := allTreeScores(I);
+    allTrees := allTreeScores(I);
     treesFile := openOutAppend(prefix|".pivotTrees");
     treesFile << writeList(allTrees) << endl << close;
     dimFile := openOutAppend(prefix|".dim");

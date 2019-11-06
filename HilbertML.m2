@@ -27,32 +27,32 @@ export {
 
 generatorPivot = method()
 generatorPivot (MonomialIdeal) := (I) -> (
-    first sort(mingensList I, MonomialOrder => RevLex)
+    first sort(select(mingensList I, a -> #(support a)>1), MonomialOrder => RevLex)
     )
 
 mostFrequentVar = method();
 mostFrequentVar (MonomialIdeal) := I -> (
-    first random commonest flatten apply(mingensList I, support)
+    first random commonest flatten select(apply(mingensList I, support), a -> #a>1)
     )
 
 m2pivot = method();
 m2pivot (MonomialIdeal) := I -> (
     f := mostFrequentVar I;
-    candidates := select(mingensList I, mon -> gcd(mon, f) > 1);
+    candidates := select(mingensList I, mon -> #(support mon)>1 and gcd(mon, f) > 1);
     f^(degree(f, gcd(candidates)))
     )
 
 randomGCD = method();
 randomGCD (MonomialIdeal, ZZ) := (I, k) -> (
     f := mostFrequentVar I;
-    candidates := select(mingensList I, mon -> gcd(mon, f) > 1);
+    candidates := select(mingensList I, mon -> #(support mon) > 1 and gcd(mon, f) > 1);
     if #candidates < k then gcd candidates else gcd(take(random candidates, k))
     )
 
 purePowerGCD = method();
 purePowerGCD (MonomialIdeal, ZZ) := (I, k) -> (
     f := mostFrequentVar I;
-    candidates := select(mingensList I, mon -> gcd(mon, f) > 1);
+    candidates := select(mingensList I, mon -> #(support mon) > 1 and gcd(mon, f) > 1);
     if #candidates < k then f^(degree(f, gcd candidates)) else f^(degree(f, gcd(take(random candidates, k))))
     )
 
@@ -139,12 +139,17 @@ allTreeScores = method();
 allTreeScores (MonomialIdeal) := (I) -> (
     N := 10; --number of trials to average the trees over
     allTrees := {
-	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "Variable")))),
 	treeScore(I, PivotStrategy => "Generator"),
+	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "Variable")))),
+	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "M2")))),
+	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "PureGCD", RandomQuantity => 1)))),
+	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "PureGCD", RandomQuantity => 2)))),
+	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "PureGCD", RandomQuantity => 3)))),	
+	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "GCD", RandomQuantity => 2)))),
 	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "GCD", RandomQuantity => 3)))),
-	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "PureGCD", RandomQuantity => 2))))
+	toRR(1/N)*(sum toList(apply(1..N, i -> treeScore(I, PivotStrategy => "GCD", RandomQuantity => 4))))
 	};
-    (allTrees, minPosition allTrees)   
+    allTrees   
 )
 
 ----------------
@@ -232,6 +237,16 @@ assert(pivotHilbert(B,t) == -t^9 + 3*t^7 - 2*t^5 - t^4 + 1)
 --colon
 TEST ///
 assert(colon({0,0,7},{4,1,3}) == {0,0,4})
+///
+
+--isAdjacent and variableGraph
+TEST ///
+R = QQ[a,b,c,d,e];
+L = {a*b*c, b*c*d, c*d*e, a^2*e^2};
+assert(isAdjacent(L, a, b))
+assert(isAdjacent(L, a, d) == false)
+G = variableGraph(monomialIdeal(L));
+assert(apply(vertices(G), v -> degree(G,v)) == {3,3,4,3,3})
 ///
 
 end
