@@ -213,7 +213,7 @@ assert(isBaseCase J)
 assert(zeroBaseCase(J, t) == -t^14 + t^12 + t^9 - t^5 - t^2 + 1)
 K = monomialIdeal(x^5, y^2, z^7, x^4*y*z^3);
 assert(nontrivialPowerProducts K == 1)
-assert(isBaseCase(K) == true)
+assert(isBaseCase K)
 assert(oneBaseCase(K, t) == -2*t^13 + 2*t^12 - t^10 + 3*t^9 - t^8 - t^5 - t^2 + 1)
 ///
 
@@ -239,15 +239,6 @@ TEST ///
 assert(colon({0,0,7},{4,1,3}) == {0,0,4})
 ///
 
---isAdjacent and variableGraph
-TEST ///
-R = QQ[a,b,c,d,e];
-L = {a*b*c, b*c*d, c*d*e, a^2*e^2};
-assert(isAdjacent(L, a, b))
-assert(isAdjacent(L, a, d) == false)
-G = variableGraph(monomialIdeal(L));
-assert(apply(vertices(G), v -> degree(G,v)) == {3,3,4,3,3})
-///
 
 end
 
